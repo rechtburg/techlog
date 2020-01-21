@@ -6,3 +6,5 @@
 /infra/terraform.tfvars
 /infra/.terraform
 /infra/*.backup
+
+/client/node_modules

@@ -14,7 +14,7 @@ resource "aws_internet_gateway" "techlog_vpc-igw" {
   }
 }
 
-# Public Subne
+# Public Subnet
 resource "aws_subnet" "techlog_vpc-public-subnet1" {
   vpc_id = "${aws_vpc.techlog_vpc.id}"
   cidr_block = "${var.public_segment1}"
@@ -24,14 +24,14 @@ resource "aws_subnet" "techlog_vpc-public-subnet1" {
   }
 }
 
-resource "aws_subnet" "techlog_vpc-public-subnet2" {
-  vpc_id = "${aws_vpc.techlog_vpc.id}"
-  cidr_block = "${var.public_segment2}"
-  availability_zone = "${var.public_segment2_az}"
-  tags = {
-    Name = "${var.app_name} public-subnet2"
-  }
-}
+# resource "aws_subnet" "techlog_vpc-public-subnet2" {
+#   vpc_id = "${aws_vpc.techlog_vpc.id}"
+#   cidr_block = "${var.public_segment2}"
+#   availability_zone = "${var.public_segment2_az}"
+#   tags = {
+#     Name = "${var.app_name} public-subnet2"
+#   }
+# }
 
 # Private Subnet
 resource "aws_subnet" "techlog_vpc-private-subnet1" {
@@ -43,14 +43,15 @@ resource "aws_subnet" "techlog_vpc-private-subnet1" {
   }
 }
 
-resource "aws_subnet" "techlog_vpc-private-subnet2" {
-  vpc_id = "${aws_vpc.techlog_vpc.id}"
-  cidr_block = "${var.private_segment2}"
-  availability_zone = "${var.private_segment2_az}"
-  tags = {
-    Name = "${var.app_name} private-subnet2"
-  }
-}
+# resource "aws_subnet" "techlog_vpc-private-subnet2" {
+#   vpc_id = "${aws_vpc.techlog_vpc.id}"
+#   cidr_block = "${var.private_segment2}"
+#   availability_zone = "${var.private_segment2_az}"
+#   tags = {
+#     Name = "${var.app_name} private-subnet2"
+#   }
+# }
+
 
 # Routes Table
 resource "aws_route_table" "techlog_vpc-public-rt" {
@@ -69,7 +70,7 @@ resource "aws_route_table_association" "techlog_vpc-rta1" {
   route_table_id = "${aws_route_table.techlog_vpc-public-rt.id}"
 }
 
-resource "aws_route_table_association" "techlog_vpc-rta2" {
-  subnet_id = "${aws_subnet.techlog_vpc-public-subnet2.id}"
-  route_table_id = "${aws_route_table.techlog_vpc-public-rt.id}"
-}
+# resource "aws_route_table_association" "techlog_vpc-rta2" {
+#   subnet_id = "${aws_subnet.techlog_vpc-public-subnet2.id}"
+#   route_table_id = "${aws_route_table.techlog_vpc-public-rt.id}"
+# }
