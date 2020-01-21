@@ -1,0 +1,65 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: api
+    command: bash -c "rails s -p 4000 -b 0.0.0.0"
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_PORT=15432
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=password
+    volumes:
+      - .:/app:cached
+      - bundle:/usr/local/bundle:cached
+      - tmp-data:/app/tmp
+      - log-data:/app/log
+    ports:
+      - 4000:4000
+    depends_on:
+      - db
+    tty: true
+  db:
+    image: postgres
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+  es:
+    build:
+      context: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - cluster.name=techlog-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    depends_on:
+      - api
+  web:
+    container_name: react-client
+    image: react-client:latest
+    build:
+      context: client
+    volumes: 
+      - react-client:/user/app
+      - module-data:/usr/app/node_modules
+    ports:
+        - 8080:8080
+    restart: always
+
+volumes:
+  postgresql-data:
+  bundle:
+  tmp-data:
+  log-data:
+  es-data:
+    driver: 'local'
+  module-data:
+  react-client:
