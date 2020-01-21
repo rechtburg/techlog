@@ -2,3 +2,5 @@
 /tmp
 /public
 .DS_Store
+
+/infra/terraform.tfvars
